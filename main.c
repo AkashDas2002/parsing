@@ -12,17 +12,20 @@
 
 char ** parse_args( char * line ){
   char *s1 = line;
+  char ** arguments = malloc(5 * sizeof(char *));
+  int index = 0;
   while(s1 != NULL){
-    printf("[%s]\n", strsep( &s1, " -" ));
+    arguments[index] = strsep(&s1, " ");
+    //printf("%d: [%s]\n",index, arguments[index]);
+    index++;
   }
+  arguments[index] = NULL;
+  return arguments;
 }
 
 int main(){
-  char line[100] = "woah-this-is-cool";
-  char *s1 = line;
-  while(s1 != NULL){
-      printf("[%s]\n", strsep( &s1, "-" ));
-  }
-
+  char line[100] = "ls -a -l";
+  char ** args = parse_args(line);
+  execvp(args[0],args);
   return 0;
 }
